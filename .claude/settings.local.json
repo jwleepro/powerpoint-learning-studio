@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__serena__list_dir",
+      "mcp__serena__activate_project"
+    ],
+    "deny": [
+      "Bash(rm:*)",
+      "Bash(rmdir:*)",
+      "Bash(del:*)",
+      "PowerShell(Remove-Item:*)"
+    ],
+    "ask": []
+  },
+  "enabledMcpjsonServers": [
+    "serena",
+    "context7"
+  ]
+}
