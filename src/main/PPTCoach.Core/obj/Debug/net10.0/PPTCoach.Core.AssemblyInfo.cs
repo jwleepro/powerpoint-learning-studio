@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PPTCoach.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+45d96256280136b7faa65967cd50fff6590ddb46")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1349a9bdc17860fb41f22c88b28c6a8c9f55b686")]
 [assembly: System.Reflection.AssemblyProductAttribute("PPTCoach.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PPTCoach.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

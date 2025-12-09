@@ -1,0 +1,13 @@
+D:\98. TestProject\powerpoint-learning-studio\src\main\PPTCoach.Core\obj\Debug\net10.0-windows\PPTCoach.Core.csproj.AssemblyReference.cache
+D:\98. TestProject\powerpoint-learning-studio\src\main\PPTCoach.Core\obj\Debug\net10.0-windows\PPTCoach.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\98. TestProject\powerpoint-learning-studio\src\main\PPTCoach.Core\obj\Debug\net10.0-windows\PPTCoach.Core.AssemblyInfoInputs.cache
+D:\98. TestProject\powerpoint-learning-studio\src\main\PPTCoach.Core\obj\Debug\net10.0-windows\PPTCoach.Core.AssemblyInfo.cs
+D:\98. TestProject\powerpoint-learning-studio\src\main\PPTCoach.Core\obj\Debug\net10.0-windows\PPTCoach.Core.csproj.CoreCompileInputs.cache
+D:\98. TestProject\powerpoint-learning-studio\src\main\PPTCoach.Core\obj\Debug\net10.0-windows\PPTCoach.Core.sourcelink.json
+D:\98. TestProject\powerpoint-learning-studio\src\main\PPTCoach.Core\bin\Debug\net10.0-windows\PPTCoach.Core.deps.json
+D:\98. TestProject\powerpoint-learning-studio\src\main\PPTCoach.Core\bin\Debug\net10.0-windows\PPTCoach.Core.dll
+D:\98. TestProject\powerpoint-learning-studio\src\main\PPTCoach.Core\bin\Debug\net10.0-windows\PPTCoach.Core.pdb
+D:\98. TestProject\powerpoint-learning-studio\src\main\PPTCoach.Core\obj\Debug\net10.0-windows\PPTCoach.Core.dll
+D:\98. TestProject\powerpoint-learning-studio\src\main\PPTCoach.Core\obj\Debug\net10.0-windows\refint\PPTCoach.Core.dll
+D:\98. TestProject\powerpoint-learning-studio\src\main\PPTCoach.Core\obj\Debug\net10.0-windows\PPTCoach.Core.pdb
+D:\98. TestProject\powerpoint-learning-studio\src\main\PPTCoach.Core\obj\Debug\net10.0-windows\ref\PPTCoach.Core.dll
