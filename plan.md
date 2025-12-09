@@ -3,6 +3,7 @@
 ## Test-Driven Development Plan
 
 This plan follows Kent Beck's TDD cycle: Red → Green → Refactor. Each test should be implemented one at a time, made to pass, then refactored before moving to the next test.
+When running in Claude Code, do not execute in plan mode. Instead, run with "accept edit on" (shift+tab to cycle). It is recommended to run in Sonnet 4.5 or higher model.
 
 ---
 
@@ -12,56 +13,47 @@ This plan follows Kent Beck's TDD cycle: Red → Green → Refactor. Each test s
 
 - [x] Test: Should detect if PowerPoint is installed on the system
 - [x] Test: Should return null when PowerPoint is not running
-- [ ] Test: Should connect to running PowerPoint instance
-- [ ] Test: Should handle multiple PowerPoint instances
-- [ ] Test: Should throw exception when COM connection fails
+- [x] Test: Should connect to running PowerPoint instance
+- [x] Test: Should handle multiple PowerPoint instances
+- [x] Test: Should throw exception when COM connection fails
 
 ### 1.2 New Document Creation
 
-- [ ] Test: Should create new PowerPoint presentation
-- [ ] Test: Should return presentation object after creation
-- [ ] Test: Should create presentation with default blank slide
-- [ ] Test: Should handle creation failure gracefully
+- [x] Test: Should create new PowerPoint presentation
+- [x] Test: Should return presentation object after creation
+- [x] Test: Should create presentation with default blank slide
+- [x] Test: Should handle creation failure gracefully
 
 ### 1.3 Slide Information Reading
 
-- [ ] Test: Should get current slide number
-- [ ] Test: Should return 0 when no slide is selected
-- [ ] Test: Should get total slide count
-- [ ] Test: Should read slide title text
-- [ ] Test: Should read all text content from slide
-- [ ] Test: Should get all shapes on slide
-- [ ] Test: Should return shape type (text, image, table, etc.)
+- [x] Test: Should get current slide number
+- [x] Test: Should return 0 when no slide is selected
+- [x] Test: Should get total slide count
+- [x] Test: Should read slide title text
+- [x] Test: Should read all text content from slide
+- [x] Test: Should get all shapes on slide
+- [x] Test: Should return shape type (text, image, table, etc.)
 
 ### 1.4 Slide Manipulation
 
-- [ ] Test: Should add new blank slide
-- [ ] Test: Should add slide with specific layout
-- [ ] Test: Should delete slide by index
-- [ ] Test: Should move slide from one position to another
-- [ ] Test: Should prevent deleting when only one slide exists
+- [x] Test: Should add new blank slide
+- [x] Test: Should add slide with specific layout
+- [x] Test: Should delete slide by index
+- [x] Test: Should move slide from one position to another
+- [x] Test: Should prevent deleting when only one slide exists
 
 ### 1.5 Element Property Reading
 
-- [ ] Test: Should get font name from text shape
-- [ ] Test: Should get font size from text shape
-- [ ] Test: Should get font color (RGB) from text shape
-- [ ] Test: Should get shape fill color
-- [ ] Test: Should get shape position (Left, Top)
-- [ ] Test: Should get shape size (Width, Height)
-- [ ] Test: Should get table cell content
-- [ ] Test: Should handle shapes without text gracefully
+- [x] Test: Should get font name from text shape
+- [x] Test: Should get font size from text shape
+- [x] Test: Should get font color (RGB) from text shape
+- [x] Test: Should get shape fill color
+- [x] Test: Should get shape position (Left, Top)
+- [x] Test: Should get shape size (Width, Height)
+- [x] Test: Should get table cell content
+- [x] Test: Should handle shapes without text gracefully
 
-### 1.6 Element Property Modification (Optional)
-
-- [ ] Test: Should change font name of text shape
-- [ ] Test: Should change font size of text shape
-- [ ] Test: Should change font color of text shape
-- [ ] Test: Should change shape fill color
-- [ ] Test: Should move shape to new position
-- [ ] Test: Should resize shape
-
-### 1.7 Event Detection
+### 1.6 Event Detection
 
 - [ ] Test: Should detect slide change event
 - [ ] Test: Should detect shape selection change event
@@ -181,13 +173,6 @@ This plan follows Kent Beck's TDD cycle: Red → Green → Refactor. Each test s
 - [ ] Test: Should detect click on highlighted area
 - [ ] Test: Should not block keyboard input to PowerPoint
 
-### 3.7 Animation Effects (Optional)
-
-- [ ] Test: Should pulse highlight border
-- [ ] Test: Should animate arrow movement
-- [ ] Test: Should fade in/out tooltip
-- [ ] Test: Should stop animation on user interaction
-
 ---
 
 ## Phase 4: Real-time Validation & Feedback (FR-401 ~ FR-408)
@@ -247,14 +232,6 @@ This plan follows Kent Beck's TDD cycle: Red → Green → Refactor. Each test s
 - [ ] Test: Should show before/after preview
 - [ ] Test: Should prioritize suggestions by severity
 - [ ] Test: Should link suggestion to relevant step
-
-### 4.8 Auto-correction (Optional)
-
-- [ ] Test: Should fix font inconsistency on approval
-- [ ] Test: Should fix color inconsistency on approval
-- [ ] Test: Should fix alignment on approval
-- [ ] Test: Should require user confirmation before applying
-- [ ] Test: Should support undo after auto-correction
 
 ---
 
