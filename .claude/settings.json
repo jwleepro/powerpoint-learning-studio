@@ -10,10 +10,14 @@
       "Bash(del:*)",
       "PowerShell(Remove-Item:*)"
     ],
-    "ask": []
+    "ask": [],
+    "defaultMode": "acceptEdits"
   },
   "enabledMcpjsonServers": [
     "serena",
     "context7"
-  ]
+  ],
+  "env": {
+    "MAX_THINKING_TOKENS": "0"
+  }
 }
