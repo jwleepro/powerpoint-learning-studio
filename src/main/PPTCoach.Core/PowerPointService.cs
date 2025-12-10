@@ -5,6 +5,16 @@ namespace PPTCoach.Core;
 
 public class PowerPointService
 {
+    // Event for slide change detection
+    public event EventHandler<int>? OnSlideChanged;
+
+    // Event for shape selection change detection
+    public event EventHandler<string>? OnShapeSelectionChanged;
+
+    private object? _monitoredPresentation;
+    private int _lastSlideNumber;
+    private string? _lastSelectedShapeName;
+
     [DllImport("ole32.dll", CharSet = CharSet.Unicode)]
     private static extern int CLSIDFromProgID(string lpszProgID, out Guid pclsid);
 
@@ -402,5 +412,112 @@ public class PowerPointService
         int green = (rgb >> 8) & 0xFF;
         int blue = (rgb >> 16) & 0xFF;
         return (red, green, blue);
+    }
+
+    [SupportedOSPlatform("windows")]
+    public void StartMonitoringSlideChanges(object presentation)
+    {
+        _monitoredPresentation = presentation;
+        _lastSlideNumber = GetCurrentSlideNumber(presentation);
+    }
+
+    [SupportedOSPlatform("windows")]
+    public void StopMonitoringSlideChanges()
+    {
+        _monitoredPresentation = null;
+    }
+
+    [SupportedOSPlatform("windows")]
+    public void CheckForSlideChange()
+    {
+        if (_monitoredPresentation == null) return;
+
+        try
+        {
+            int currentSlideNumber = GetCurrentSlideNumber(_monitoredPresentation);
+            if (currentSlideNumber != _lastSlideNumber && currentSlideNumber > 0)
+            {
+                _lastSlideNumber = currentSlideNumber;
+                OnSlideChanged?.Invoke(this, currentSlideNumber);
+            }
+        }
+        catch
+        {
+            // Ignore errors during monitoring (presentation might be closed)
+        }
+    }
+
+    /// <summary>
+    /// Starts monitoring for shape selection changes
+    /// </summary>
+    [SupportedOSPlatform("windows")]
+    public void StartMonitoringShapeSelection(object presentation)
+    {
+        _monitoredPresentation = presentation;
+        _lastSelectedShapeName = GetCurrentSelectedShapeName(presentation);
+    }
+
+    /// <summary>
+    /// Stops monitoring for shape selection changes
+    /// </summary>
+    [SupportedOSPlatform("windows")]
+    public void StopMonitoringShapeSelection()
+    {
+        _lastSelectedShapeName = null;
+    }
+
+    /// <summary>
+    /// Checks if the selected shape has changed and fires event if it has
+    /// This should be called periodically to detect shape selection changes
+    /// </summary>
+    [SupportedOSPlatform("windows")]
+    public void CheckForShapeSelectionChange()
+    {
+        if (_monitoredPresentation == null) return;
+
+        try
+        {
+            string? currentShapeName = GetCurrentSelectedShapeName(_monitoredPresentation);
+            if (currentShapeName != _lastSelectedShapeName && currentShapeName != null)
+            {
+                _lastSelectedShapeName = currentShapeName;
+                OnShapeSelectionChanged?.Invoke(this, currentShapeName);
+            }
+        }
+        catch
+        {
+            // Ignore errors during monitoring (presentation might be closed)
+        }
+    }
+
+    /// <summary>
+    /// Gets the name of the currently selected shape
+    /// </summary>
+    [SupportedOSPlatform("windows")]
+    private string? GetCurrentSelectedShapeName(object presentation)
+    {
+        try
+        {
+            dynamic pres = presentation;
+            dynamic app = pres.Application;
+            dynamic activeWindow = app.ActiveWindow;
+            dynamic selection = activeWindow.Selection;
+
+            // Check if a shape is selected (Type 2 = ppSelectionShapes)
+            if (selection.Type == 2)
+            {
+                dynamic shapeRange = selection.ShapeRange;
+                if (shapeRange.Count > 0)
+                {
+                    return shapeRange[1].Name;
+                }
+            }
+
+            return null;
+        }
+        catch
+        {
+            return null;
+        }
     }
 }
