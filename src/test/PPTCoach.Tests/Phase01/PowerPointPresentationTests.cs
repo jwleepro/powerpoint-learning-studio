@@ -1,7 +1,8 @@
 using PPTCoach.Core;
+using PPTCoach.Tests.Utils;
 using System.Runtime.Versioning;
 
-namespace PPTCoach.Tests;
+namespace PPTCoach.Tests.Phase01;
 
 /// <summary>
 /// Tests for Phase 1.2: New Document Creation

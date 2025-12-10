@@ -2,7 +2,7 @@ using PPTCoach.Core;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
 
-namespace PPTCoach.Tests;
+namespace PPTCoach.Tests.Utils;
 
 /// <summary>
 /// Helper methods for PowerPoint test setup and cleanup
@@ -94,7 +94,7 @@ public static class PowerPointTestHelpers
 
         // Wait for PowerPoint to fully initialize with retry logic
         object? instance = null;
-        int maxRetries = 10;
+        int maxRetries = 20; // Increased from 10 to 20
         int retryDelayMs = 1000;
 
         for (int i = 0; i < maxRetries; i++)
@@ -107,7 +107,14 @@ public static class PowerPointTestHelpers
             }
         }
 
-        return (pptProcess, instance!);
+        if (instance == null)
+        {
+            throw new InvalidOperationException(
+                $"Failed to connect to PowerPoint after {maxRetries} retries. " +
+                "PowerPoint may not be starting correctly or may require more time to initialize.");
+        }
+
+        return (pptProcess, instance);
     }
 
     /// <summary>

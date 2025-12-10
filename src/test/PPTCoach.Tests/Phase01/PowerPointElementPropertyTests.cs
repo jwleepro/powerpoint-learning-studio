@@ -1,7 +1,8 @@
 using PPTCoach.Core;
+using PPTCoach.Tests.Utils;
 using System.Runtime.Versioning;
 
-namespace PPTCoach.Tests;
+namespace PPTCoach.Tests.Phase01;
 
 /// <summary>
 /// Tests for Phase 1.5: Element Property Reading
@@ -297,31 +298,16 @@ public class PowerPointElementPropertyTests
         var powerPointService = new PowerPointService();
         System.Diagnostics.Process? pptProcess = null;
 
+        // Ensure no PowerPoint is running initially
+        PowerPointTestHelpers.EnsureNoPowerPointRunning(powerPointService);
+
         try
         {
-            // Start PowerPoint process
-            var psi = new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = "powerpnt.exe",
-                UseShellExecute = true,
-                WindowStyle = System.Diagnostics.ProcessWindowStyle.Minimized
-            };
-            pptProcess = System.Diagnostics.Process.Start(psi);
-
-            // Allow time for PowerPoint to initialize
-            const int maxRetries = 20;
-            const int retryDelayMs = 500;
-            object? instance = null;
-
-            for (int i = 0; i < maxRetries; i++)
-            {
-                System.Threading.Thread.Sleep(retryDelayMs);
-                instance = powerPointService.GetRunningPowerPointInstance();
-                if (instance != null)
-                {
-                    break;
-                }
-            }
+            // Start PowerPoint and wait for it to be ready
+            object instance;
+            (pptProcess, instance) = PowerPointTestHelpers.StartPowerPointAndWait(
+                powerPointService,
+                System.Diagnostics.ProcessWindowStyle.Minimized);
 
             Assert.NotNull(instance);
 
@@ -362,31 +348,16 @@ public class PowerPointElementPropertyTests
         var powerPointService = new PowerPointService();
         System.Diagnostics.Process? pptProcess = null;
 
+        // Ensure no PowerPoint is running initially
+        PowerPointTestHelpers.EnsureNoPowerPointRunning(powerPointService);
+
         try
         {
-            // Start PowerPoint process
-            var psi = new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = "powerpnt.exe",
-                UseShellExecute = true,
-                WindowStyle = System.Diagnostics.ProcessWindowStyle.Minimized
-            };
-            pptProcess = System.Diagnostics.Process.Start(psi);
-
-            // Allow time for PowerPoint to initialize
-            const int maxRetries = 20;
-            const int retryDelayMs = 500;
-            object? instance = null;
-
-            for (int i = 0; i < maxRetries; i++)
-            {
-                System.Threading.Thread.Sleep(retryDelayMs);
-                instance = powerPointService.GetRunningPowerPointInstance();
-                if (instance != null)
-                {
-                    break;
-                }
-            }
+            // Start PowerPoint and wait for it to be ready
+            object instance;
+            (pptProcess, instance) = PowerPointTestHelpers.StartPowerPointAndWait(
+                powerPointService,
+                System.Diagnostics.ProcessWindowStyle.Minimized);
 
             Assert.NotNull(instance);
 
