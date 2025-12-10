@@ -11,9 +11,13 @@ public class PowerPointService
     // Event for shape selection change detection
     public event EventHandler<string>? OnShapeSelectionChanged;
 
+    // Event for presentation save detection
+    public event EventHandler<string>? OnPresentationSaved;
+
     private object? _monitoredPresentation;
     private int _lastSlideNumber;
     private string? _lastSelectedShapeName;
+    private DateTime? _lastSaveTime;
 
     [DllImport("ole32.dll", CharSet = CharSet.Unicode)]
     private static extern int CLSIDFromProgID(string lpszProgID, out Guid pclsid);
@@ -514,6 +518,100 @@ public class PowerPointService
             }
 
             return null;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Starts monitoring for presentation save events
+    /// </summary>
+    [SupportedOSPlatform("windows")]
+    public void StartMonitoringPresentationSave(object presentation)
+    {
+        _monitoredPresentation = presentation;
+        _lastSaveTime = GetPresentationLastSaveTime(presentation);
+    }
+
+    /// <summary>
+    /// Stops monitoring for presentation save events
+    /// </summary>
+    [SupportedOSPlatform("windows")]
+    public void StopMonitoringPresentationSave()
+    {
+        _lastSaveTime = null;
+    }
+
+    /// <summary>
+    /// Checks if the presentation has been saved and fires event if it has
+    /// This should be called periodically to detect presentation save events
+    /// </summary>
+    [SupportedOSPlatform("windows")]
+    public void CheckForPresentationSave()
+    {
+        if (_monitoredPresentation == null) return;
+
+        try
+        {
+            DateTime? currentSaveTime = GetPresentationLastSaveTime(_monitoredPresentation);
+            if (currentSaveTime.HasValue && currentSaveTime != _lastSaveTime)
+            {
+                _lastSaveTime = currentSaveTime;
+                string? filePath = GetPresentationFilePath(_monitoredPresentation);
+                if (!string.IsNullOrEmpty(filePath))
+                {
+                    OnPresentationSaved?.Invoke(this, filePath);
+                }
+            }
+        }
+        catch
+        {
+            // Ignore errors during monitoring (presentation might be closed)
+        }
+    }
+
+    /// <summary>
+    /// Gets the last save time of the presentation
+    /// </summary>
+    [SupportedOSPlatform("windows")]
+    private DateTime? GetPresentationLastSaveTime(object presentation)
+    {
+        try
+        {
+            dynamic pres = presentation;
+            // Check if presentation has been saved (has a path)
+            string path = pres.Path;
+            if (string.IsNullOrEmpty(path))
+            {
+                return null;
+            }
+
+            string fullPath = pres.FullName;
+            if (File.Exists(fullPath))
+            {
+                return File.GetLastWriteTime(fullPath);
+            }
+
+            return null;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Gets the file path of the presentation
+    /// </summary>
+    [SupportedOSPlatform("windows")]
+    private string? GetPresentationFilePath(object presentation)
+    {
+        try
+        {
+            dynamic pres = presentation;
+            return pres.FullName;
         }
         catch
         {

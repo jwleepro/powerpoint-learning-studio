@@ -146,4 +146,78 @@ public class PowerPointEventDetectionTests
             PowerPointTestHelpers.CleanupPowerPoint(powerPointService, pptProcess);
         }
     }
+
+    [Fact]
+    [SupportedOSPlatform("windows")]
+    public void ShouldDetectPresentationSaveEvent()
+    {
+        // Arrange
+        var powerPointService = new PowerPointService();
+        System.Diagnostics.Process? pptProcess = null;
+        dynamic? instance = null;
+        bool saveEventDetected = false;
+        string? savedFilePath = null;
+
+        try
+        {
+            // Ensure no PowerPoint is running initially
+            PowerPointTestHelpers.EnsureNoPowerPointRunning(powerPointService);
+
+            // Start PowerPoint and wait for it to be ready
+            (pptProcess, instance) = PowerPointTestHelpers.StartPowerPointAndWait(powerPointService);
+            Assert.NotNull(instance);
+
+            // Create a new presentation
+            var presentation = powerPointService.CreateNewPresentation(instance);
+            Assert.NotNull(presentation);
+
+            // Subscribe to presentation save event
+            powerPointService.OnPresentationSaved += (sender, filePath) =>
+            {
+                saveEventDetected = true;
+                savedFilePath = filePath;
+            };
+
+            // Start monitoring presentation save events
+            powerPointService.StartMonitoringPresentationSave(presentation);
+
+            // Act - Save the presentation to a temporary file
+            string tempPath = Path.Combine(Path.GetTempPath(), $"TestPresentation_{Guid.NewGuid()}.pptx");
+            dynamic pres = presentation;
+            pres.SaveAs(tempPath);
+
+            // Give PowerPoint time to complete the save operation
+            System.Threading.Thread.Sleep(500);
+
+            // Check for save event (simulates polling mechanism)
+            powerPointService.CheckForPresentationSave();
+
+            // Assert
+            Assert.True(saveEventDetected, "Presentation save event should have been detected");
+            Assert.NotNull(savedFilePath);
+            Assert.True(File.Exists(tempPath), "Saved file should exist");
+
+            // Close the presentation before cleanup
+            pres.Close();
+            System.Threading.Thread.Sleep(500);
+
+            // Cleanup the temporary file
+            if (File.Exists(tempPath))
+            {
+                try
+                {
+                    File.Delete(tempPath);
+                }
+                catch
+                {
+                    // Ignore cleanup errors
+                }
+            }
+        }
+        finally
+        {
+            powerPointService.StopMonitoringPresentationSave();
+            PowerPointTestHelpers.CleanupPowerPoint(powerPointService, pptProcess);
+        }
+    }
 }
