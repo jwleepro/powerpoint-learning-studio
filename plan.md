@@ -55,8 +55,8 @@ When running in Claude Code, do not execute in plan mode. Instead, run with "acc
 
 ### 1.6 Event Detection
 
-- [ ] Test: Should detect slide change event
-- [ ] Test: Should detect shape selection change event
+- [x] Test: Should detect slide change event
+- [x] Test: Should detect shape selection change event
 - [ ] Test: Should detect presentation save event
 - [ ] Test: Should detect presentation close event
 - [ ] Test: Should unsubscribe from events properly
