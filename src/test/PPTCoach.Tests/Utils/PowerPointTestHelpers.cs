@@ -1,4 +1,5 @@
 using PPTCoach.Core;
+using PPTCoach.Core.Constants;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
 
@@ -87,7 +88,7 @@ public static class PowerPointTestHelpers
         System.Diagnostics.ProcessWindowStyle windowStyle = System.Diagnostics.ProcessWindowStyle.Normal)
     {
         var pptProcess = new System.Diagnostics.Process();
-        pptProcess.StartInfo.FileName = "powerpnt.exe";
+        pptProcess.StartInfo.FileName = PowerPointProgId.Executable;
         pptProcess.StartInfo.UseShellExecute = true;
         pptProcess.StartInfo.WindowStyle = windowStyle;
         pptProcess.Start();
