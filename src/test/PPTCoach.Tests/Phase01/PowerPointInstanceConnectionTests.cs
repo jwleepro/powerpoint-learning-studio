@@ -1,5 +1,6 @@
 using PPTCoach.Core;
 using PPTCoach.Tests.Utils;
+using PPTCoach.Tests.Constants;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
@@ -54,7 +55,7 @@ public class PowerPointInstanceConnectionTests
             dynamic app = initialInstance;
             app.Quit();
             Marshal.ReleaseComObject(app);
-            System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(TestTimeouts.PowerPointShutdownMs);
         }
 
         try
@@ -68,8 +69,8 @@ public class PowerPointInstanceConnectionTests
 
             // Wait for PowerPoint to fully initialize with retry logic
             object? instance = null;
-            int maxRetries = 10;
-            int retryDelayMs = 1000;
+            int maxRetries = TestTimeouts.PowerPointInitMaxRetries;
+            int retryDelayMs = TestTimeouts.PowerPointInitRetryDelayMs;
 
             for (int i = 0; i < maxRetries; i++)
             {
@@ -112,7 +113,7 @@ public class PowerPointInstanceConnectionTests
             dynamic app = initialInstance;
             app.Quit();
             Marshal.ReleaseComObject(app);
-            System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(TestTimeouts.PowerPointShutdownMs);
         }
 
         try
@@ -125,8 +126,8 @@ public class PowerPointInstanceConnectionTests
 
             // Wait for first PowerPoint instance with retry logic
             object? instance1 = null;
-            int maxRetries = 10;
-            int retryDelayMs = 1000;
+            int maxRetries = TestTimeouts.PowerPointInitMaxRetries;
+            int retryDelayMs = TestTimeouts.PowerPointInitRetryDelayMs;
 
             for (int i = 0; i < maxRetries; i++)
             {
@@ -145,7 +146,7 @@ public class PowerPointInstanceConnectionTests
             pptProcess2.Start();
 
             // Wait for second instance
-            System.Threading.Thread.Sleep(5000);
+            System.Threading.Thread.Sleep(TestTimeouts.MultiInstanceWaitMs);
 
             // Get instance again (should still work with multiple instances running)
             var instance2 = powerPointService.GetRunningPowerPointInstance();
@@ -180,7 +181,7 @@ public class PowerPointInstanceConnectionTests
             }
 
             // Give time for cleanup
-            System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(TestTimeouts.CleanupDelayMs);
         }
     }
 
