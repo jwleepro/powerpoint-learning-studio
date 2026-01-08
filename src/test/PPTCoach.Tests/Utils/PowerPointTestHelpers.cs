@@ -1,5 +1,6 @@
 using PPTCoach.Core;
 using PPTCoach.Core.Constants;
+using PPTCoach.Tests.Constants;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
 
@@ -72,7 +73,7 @@ public static class PowerPointTestHelpers
             {
                 // Ignore cleanup errors
             }
-            System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(TestTimeouts.PowerPointShutdownMs);
         }
 
         // Clear resiliency keys to prevent safe mode dialog
@@ -95,8 +96,8 @@ public static class PowerPointTestHelpers
 
         // Wait for PowerPoint to fully initialize with retry logic
         object? instance = null;
-        int maxRetries = 20; // Increased from 10 to 20
-        int retryDelayMs = 1000;
+        int maxRetries = TestTimeouts.PowerPointInitMaxRetries;
+        int retryDelayMs = TestTimeouts.PowerPointInitRetryDelayMs;
 
         for (int i = 0; i < maxRetries; i++)
         {
@@ -150,5 +151,51 @@ public static class PowerPointTestHelpers
                 // Ignore if process already exited
             }
         }
+    }
+
+    /// <summary>
+    /// Adds a text box shape to a slide with default or custom properties
+    /// </summary>
+    public static dynamic AddTestTextBox(
+        dynamic shapes,
+        string text = "Test Text",
+        float left = TestShapeDefaults.DefaultLeft,
+        float top = TestShapeDefaults.DefaultTop,
+        float width = TestShapeDefaults.DefaultWidth,
+        float height = TestShapeDefaults.TextBoxHeight)
+    {
+        dynamic textBox = shapes.AddTextbox(
+            MsoTextOrientation.Horizontal, left, top, width, height);
+        textBox.TextFrame.TextRange.Text = text;
+        return textBox;
+    }
+
+    /// <summary>
+    /// Adds a rectangle shape to a slide with default or custom properties
+    /// </summary>
+    public static dynamic AddTestRectangle(
+        dynamic shapes,
+        float left = TestShapeDefaults.DefaultLeft,
+        float top = TestShapeDefaults.DefaultTop,
+        float width = TestShapeDefaults.DefaultWidth,
+        float height = TestShapeDefaults.DefaultHeight)
+    {
+        return shapes.AddShape(
+            MsoAutoShapeType.Rectangle, left, top, width, height);
+    }
+
+    /// <summary>
+    /// Adds a table shape to a slide with specified dimensions
+    /// </summary>
+    public static dynamic AddTestTable(
+        dynamic shapes,
+        int numRows,
+        int numColumns,
+        float left = TestShapeDefaults.DefaultLeft,
+        float top = TestShapeDefaults.DefaultTop,
+        float width = 300f,
+        float height = TestShapeDefaults.DefaultHeight)
+    {
+        return shapes.AddTable(numRows, numColumns, left, top, width, height);
     }
 }
